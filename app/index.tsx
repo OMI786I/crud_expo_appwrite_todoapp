@@ -14,7 +14,7 @@ export default function Index() {
   console.log(text);
   return (
     <SafeAreaProvider>
-      <SafeAreaView>
+      <SafeAreaView style={{ flex: 1 }}>
         <View>
           <Text
             style={{
@@ -54,13 +54,7 @@ export default function Index() {
           </TouchableOpacity>
         </View>
 
-        <View
-          style={{
-            marginTop: 40,
-          }}
-        >
-          <TaskRead />
-        </View>
+        <TaskRead />
       </SafeAreaView>
     </SafeAreaProvider>
   );
