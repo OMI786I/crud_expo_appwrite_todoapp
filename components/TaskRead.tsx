@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { fetchDocuments } from "@/lib/appwrite";
+import { deleteDocuments, fetchDocuments } from "@/lib/appwrite";
 import { useRouter } from "expo-router";
 
 interface Task {
@@ -41,7 +41,8 @@ const TaskRead: React.FC = () => {
   };
 
   const handleDelete = (taskId: string): void => {
-    console.log(`Delete task with id: ${taskId}`);
+    const result = deleteDocuments(taskId);
+    console.log(result, taskId);
   };
 
   const renderTaskItem = ({ item }: { item: Task }) => (
@@ -69,7 +70,7 @@ const TaskRead: React.FC = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.deleteButton]}
-          onPress={() => handleDelete(item.id)}
+          onPress={() => handleDelete(item.$id)}
         >
           <Text style={styles.buttonText}>Delete</Text>
         </TouchableOpacity>

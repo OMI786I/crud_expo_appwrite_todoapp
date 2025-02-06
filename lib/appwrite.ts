@@ -71,4 +71,13 @@ export async function upDateDocuments(
   }
 }
 
+export async function deleteDocuments(documentId: string) {
+  const result = await database.deleteDocument(
+    config.databaseID,
+    config.collectionID,
+    documentId
+  );
+  return result;
+}
+
 export { database, config, client };
