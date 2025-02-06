@@ -31,4 +31,22 @@ export async function fetchDocuments() {
   }
 }
 
+export async function createDocuments(task: string, status: boolean) {
+  try {
+    const result = await database.createDocument(
+      config.databaseID, // databaseId
+      config.collectionID, // collectionId
+      ID.unique(), // documentId
+
+      {
+        tasks: task,
+        complete: status,
+      }
+    );
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export { database, config, client };

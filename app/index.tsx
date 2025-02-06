@@ -1,7 +1,8 @@
 import TaskRead from "@/components/TaskRead";
-import { database, fetchDocuments } from "@/lib/appwrite";
+import { createDocuments, database, fetchDocuments } from "@/lib/appwrite";
 import { useEffect, useState } from "react";
 import {
+  Alert,
   StyleSheet,
   Text,
   TextInput,
@@ -12,6 +13,21 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   const [text, onChangeText] = useState("");
+
+  //to create operation
+  const onPressAdd = async () => {
+    if (!text.trim()) {
+      Alert.alert("Validation Error", "Please enter a task.");
+      return;
+    }
+
+    try {
+      const result = await createDocuments(text, false);
+      console.log("Task added successfully:", result);
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
+  };
 
   return (
     <SafeAreaProvider>
@@ -43,13 +59,13 @@ export default function Index() {
               backgroundColor: "blue",
               padding: 10,
             }}
+            onPress={() => onPressAdd()}
           >
             <Text
               style={{
                 color: "white",
               }}
             >
-              {" "}
               Add Task +
             </Text>
           </TouchableOpacity>
