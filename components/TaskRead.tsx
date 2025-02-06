@@ -5,7 +5,8 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { fetchDocuments } from "@/lib/appwrite";
 
 interface Task {
   id: string;
@@ -13,11 +14,24 @@ interface Task {
 }
 
 const TaskRead: React.FC = () => {
-  const tasks: Task[] = [
-    { id: "1", title: "Complete React Native project" },
-    { id: "2", title: "Review pull requests" },
-    { id: "3", title: "Write unit tests" },
-  ];
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetchDocuments();
+      setTasks(result);
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(tasks);
+
+  //   const tasks: Task[] = [
+  //     { id: "1", title: "Complete React Native project" },
+  //     { id: "2", title: "Review pull requests" },
+  //     { id: "3", title: "Write unit tests" },
+  //   ];
 
   const handleEdit = (taskId: string): void => {
     console.log(`Edit task with id: ${taskId}`);
@@ -29,7 +43,20 @@ const TaskRead: React.FC = () => {
 
   const renderTaskItem = ({ item }: { item: Task }) => (
     <View style={styles.taskContainer}>
-      <Text style={styles.taskText}>{item.title}</Text>
+      <View
+        style={{
+          flexDirection: "column",
+        }}
+      >
+        <Text style={styles.taskText}>{item.tasks}</Text>
+
+        {item.complete === true ? (
+          <Text>Status: Completed</Text>
+        ) : (
+          <Text>Status: Incomplete</Text>
+        )}
+      </View>
+
       <View style={styles.buttonGroup}>
         <TouchableOpacity
           style={[styles.button, styles.editButton]}
@@ -53,7 +80,7 @@ const TaskRead: React.FC = () => {
       <FlatList
         data={tasks}
         renderItem={renderTaskItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.$id}
       />
     </View>
   );

@@ -1,5 +1,6 @@
 import TaskRead from "@/components/TaskRead";
-import { useState } from "react";
+import { database, fetchDocuments } from "@/lib/appwrite";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,7 +12,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   const [text, onChangeText] = useState("");
-  console.log(text);
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1 }}>
@@ -50,6 +51,25 @@ export default function Index() {
             >
               {" "}
               Add Task +
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 40,
+              backgroundColor: "blue",
+              padding: 10,
+            }}
+            onPress={() => fetchDocuments()}
+          >
+            <Text
+              style={{
+                color: "white",
+              }}
+            >
+              {" "}
+              Click Me
             </Text>
           </TouchableOpacity>
         </View>
