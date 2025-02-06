@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { fetchDocuments } from "@/lib/appwrite";
+import { useRouter } from "expo-router";
 
 interface Task {
   id: string;
@@ -15,7 +16,7 @@ interface Task {
 
 const TaskRead: React.FC = () => {
   const [tasks, setTasks] = useState([]);
-
+  const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
       const result = await fetchDocuments();
@@ -35,6 +36,8 @@ const TaskRead: React.FC = () => {
 
   const handleEdit = (taskId: string): void => {
     console.log(`Edit task with id: ${taskId}`);
+
+    router.push(`/editTask/${taskId}`);
   };
 
   const handleDelete = (taskId: string): void => {
@@ -60,7 +63,7 @@ const TaskRead: React.FC = () => {
       <View style={styles.buttonGroup}>
         <TouchableOpacity
           style={[styles.button, styles.editButton]}
-          onPress={() => handleEdit(item.id)}
+          onPress={() => handleEdit(item.$id)}
         >
           <Text style={styles.buttonText}>Edit</Text>
         </TouchableOpacity>

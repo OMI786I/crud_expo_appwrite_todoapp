@@ -49,4 +49,26 @@ export async function createDocuments(task: string, status: boolean) {
   }
 }
 
+export async function upDateDocuments(
+  task: string,
+  status: boolean,
+  documentId: string
+) {
+  try {
+    const result = await database.updateDocument(
+      config.databaseID, // databaseId
+      config.collectionID, // collectionId
+      documentId, // documentId
+      {
+        tasks: task,
+        complete: status,
+      } // data (optional)
+    );
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export { database, config, client };
