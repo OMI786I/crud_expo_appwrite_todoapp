@@ -9,6 +9,7 @@ import {
 import React, { useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { upDateDocuments } from "@/lib/appwrite";
 
 const taskId = () => {
   const [text, onChangeText] = useState("");
@@ -20,6 +21,9 @@ const taskId = () => {
       tasks: text,
       complete: status,
     };
+
+    const result = upDateDocuments(toSendData.tasks, toSendData.complete, id);
+    console.log(result);
     console.log(toSendData);
   };
 
